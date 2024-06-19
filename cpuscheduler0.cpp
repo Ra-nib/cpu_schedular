@@ -6,8 +6,13 @@
 #include "json.hpp"
 #include <fstream>
 
+
 using namespace std;
 using json = nlohmann::json;
+
+
+//includes necessary headers for input/output, data structures, and JSON handling.
+//json is a type alias for convenience
 
 struct Process {
     int process_id;
@@ -17,6 +22,8 @@ struct Process {
     int priority;
     int last_execution_time;
 };
+
+//Defines a Process struct to hold process attributes
 
 void read_input(vector<Process>& processes) {
     int n;
@@ -29,6 +36,8 @@ void read_input(vector<Process>& processes) {
         processes[i].last_execution_time = 0; // For aging
     }
 }
+//Reads the number of processes and their details.
+//Initializes remaining_time and last_execution_time for each process
 
 void calculate_metrics(const vector<Process>& processes, const vector<int>& completion_times, float& avg_waiting_time, float& avg_turnaround_time) {
     int total_waiting_time = 0;
@@ -42,6 +51,8 @@ void calculate_metrics(const vector<Process>& processes, const vector<int>& comp
     avg_waiting_time = static_cast<float>(total_waiting_time) / processes.size();
     avg_turnaround_time = static_cast<float>(total_turnaround_time) / processes.size();
 }
+
+//Computes the average waiting time and turnaround time for processes based on their completion times
 
 json hybrid_scheduling(vector<Process> processes, int quantum) {
     int current_time = 0;
@@ -114,6 +125,12 @@ json hybrid_scheduling(vector<Process> processes, int quantum) {
 
     return result;
 }
+//Priority Queue: Manages processes based on priority.
+//Round Robin: Uses Round Robin scheduling within each priority level.
+//Aging: Adjusts priorities to prevent starvation.
+//Metrics Calculation: Computes average waiting time, turnaround time, CPU utilization, and throughput
+
+
 
 void write_to_json(const std::string& filename, const json& data) {
     std::ofstream file(filename);
@@ -124,6 +141,8 @@ void write_to_json(const std::string& filename, const json& data) {
         std::cerr << "Unable to open file: " << filename << std::endl;
     }
 }
+
+//Writes the scheduling results to a JSON file
 
 int main() {
     vector<Process> processes;
@@ -136,6 +155,7 @@ int main() {
 
     int quantum;
     cin >> quantum;
+    //Reads Input: Reads process details and quantum value.
 
     json output;
     output["hybrid"] = hybrid_scheduling(processes, quantum);
@@ -144,4 +164,8 @@ int main() {
     write_to_json("hybrid_scheduling_results.json", output);
 
     return 0;
+    
+//Sorts Processes: Sorts by arrival time
+//Executes Scheduling: Calls hybrid_scheduling function
+//Writes Output: Writes results to hybrid_scheduling_results.json
 }

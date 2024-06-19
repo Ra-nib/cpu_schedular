@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#chart {
+    margin: 20px;
+}
+
+.bar {
+    fill: steelblue;
+}
+
+.bar text {
+    fill: white;
+    font: 10px sans-serif;
+    text-anchor: middle;
+}
+
+.metrics {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
